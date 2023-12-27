@@ -6,9 +6,6 @@ function App() {
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
         <a
           className="App-link"
           href="https://reactjs.org"
@@ -16,6 +13,7 @@ function App() {
           rel="noopener noreferrer"
         >
           Learning react.js, APIs, and AWS
+          -Lets see if my app, github, and AWS are all connected
         </a>
       </header>
     </div>
