@@ -1,18 +1,15 @@
-var AWS = require("aws-sdk");
+// Importing the necessary components from AWS SDK v3
+const { DynamoDBClient, CreateTableCommand } = require("@aws-sdk/client-dynamodb");
 
-AWS.config.update({
-  region: "us-east-1"
-});
+// Configuring the AWS region
+const REGION = "eu-central-1"; // Frankfurt
+const ddbClient = new DynamoDBClient({ region: REGION });
 
-var dynamodb = new AWS.DynamoDB();
-
-var params = {
+const params = {
   TableName: "MenuLinks",
   KeySchema: [
-    // Partition Key
-    { AttributeName: "href", KeyType: "HASH" },
-    // Sort Keys
-    { AttributeName: "text", KeyType: "RANGE" }
+    { AttributeName: "href", KeyType: "HASH" }, // Partition Key
+    { AttributeName: "text", KeyType: "RANGE" } // Sort Key
   ],
   AttributeDefinitions: [
     { AttributeName: "class", AttributeType: "S" },
@@ -37,9 +34,13 @@ var params = {
   }
 };
 
-dynamodb.createTable(params, function (err, data) {
-  if (err)
-    console.error("Unable to create table: ", JSON.stringify(err, null, 2))
-  else
-    console.log("Created table with description: ", JSON.stringify(data, null, 2))
-});
+const createTable = async () => {
+  try {
+    const data = await ddbClient.send(new CreateTableCommand(params));
+    console.log("Created table with description: ", JSON.stringify(data, null, 2));
+  } catch (err) {
+    console.error("Unable to create table: ", JSON.stringify(err, null, 2));
+  }
+};
+
+createTable();
